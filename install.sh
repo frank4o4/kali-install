@@ -20,7 +20,7 @@ rm code_latest_amd64.deb &&
 # Install Tools
 # Will add more as I notice the ones I use are missing
 sudo apt update 
-sudo apt install feroxbuster &&
+sudo apt install feroxbuster -y &&
 
 # Samba Configuration
 # Support SMB1 Shares Scanning
