@@ -54,17 +54,17 @@ sudo smbpasswd -a $USERNAME
 # SOAPUI
 wget https://dl.eviware.com/soapuios/5.7.2/SoapUI-x64-5.7.2.sh -O /tmp/soapui.sh &&
 chmod 775 /tmp/soapui.sh &&
-sudo sh /tmp/soapui.sh &&
-rm /tmp/soapui.sh
+sudo /tmp/soapui.sh &&
+
 
 # IDAPRO
 
 wget https://out7.hex-rays.com/files/idafree84_linux.run -O /tmp/idapro.sh &&
 chmod 775 /tmp/idapro.sh &&
-sudo sh /tmp/idapro.sh &&
-rm /tmp/idapro.sh
+sudo /tmp/idapro.sh
 
-ida_icon = "
+
+ida_icon="
 [Desktop Entry]
 Type=Application
 Name=IDAPRO
@@ -73,7 +73,7 @@ Exec=/usr/bin/ida64
 Terminal=false
 Categories=Development;
 "
-echo "$ida_icon" | sudo tee -a /usr/share/applications > /dev/null
+echo "$ida_icon" | sudo tee -a /usr/share/applications/idapro.desktop > /dev/null
 
 
 # Add my tools to /var/www/html
@@ -86,4 +86,9 @@ git clone https://github.com/frank4o4/kali-tools.git &&
 cd kali-tools &&
 rm README.md &&
 sudo mv * /var/www/html &&
-rm -rf /tmp/kali-tools
+cd /tmp &&
+sudo rm -rf /tmp/kali-tools &&
+sudo rm /tmp/soapui.sh &&
+sudo rm /tmp/idapro.sh &&
+
+echo "Script Has completed"
