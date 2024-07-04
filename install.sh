@@ -1,8 +1,10 @@
 #!/bin/sh
 
+# Exit script on any error
+set -e
+
 # Define a variable for the username
 USERNAME="frank4o4"
-
 
 # Check if the script is run as root
 if [ "$(id -u)" -ne 0 ]; then
@@ -10,23 +12,23 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
-
 # Install Visual Code
-cd /tmp &&
-wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/code_latest_amd64.deb &&
-sudo dpkg -i code_latest_amd64.deb &&
-rm code_latest_amd64.deb &&
+cd /tmp
+if wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/code_latest_amd64.deb; then
+  sudo dpkg -i code_latest_amd64.deb
+  rm code_latest_amd64.deb
+else
+  echo "Failed to download Visual Code"
+fi
 
 # Install Tools
-# Will add more as I notice the ones I use are missing
-sudo apt update 
-sudo apt install feroxbuster -y &&
+sudo apt update
+sudo apt install feroxbuster -y || echo "Failed to install feroxbuster"
 
 # Samba Configuration
-# Support SMB1 Shares Scanning
 sudo sed -i 's/^client min protocol = LANMAN1/client min protocol = NT1/' /etc/samba/smb.conf
 
-# change to your username or remove if you don't plan on having samba shares
+# Change to your username or remove if you don't plan on having samba shares
 configurations="
 [visualstudio]
 path = /home/$USERNAME/data
@@ -47,22 +49,26 @@ read only = no
 # Append configurations to smb.conf
 echo "$configurations" | sudo tee -a /etc/samba/smb.conf > /dev/null
 
-# adding my user account as a samba user
+# Adding my user account as a samba user
 sudo smbpasswd -a $USERNAME
 
-
 # SOAPUI
-wget https://dl.eviware.com/soapuios/5.7.2/SoapUI-x64-5.7.2.sh -O /tmp/soapui.sh &&
-chmod 775 /tmp/soapui.sh &&
-sudo /tmp/soapui.sh &&
-
+if wget https://dl.eviware.com/soapuios/5.7.2/SoapUI-x64-5.7.2.sh -O /tmp/soapui.sh; then
+  chmod 775 /tmp/soapui.sh
+  sudo /tmp/soapui.sh
+  sudo rm /tmp/soapui.sh
+else
+  echo "Failed to download SOAPUI"
+fi
 
 # IDAPRO
-
-wget https://out7.hex-rays.com/files/idafree84_linux.run -O /tmp/idapro.sh &&
-chmod 775 /tmp/idapro.sh &&
-sudo /tmp/idapro.sh
-
+if wget https://out7.hex-rays.com/files/idafree84_linux.run -O /tmp/idapro.sh; then
+  chmod 775 /tmp/idapro.sh
+  sudo /tmp/idapro.sh
+  sudo rm /tmp/idapro.sh
+else
+  echo "Failed to download IDAPRO"
+fi
 
 ida_icon="
 [Desktop Entry]
@@ -75,25 +81,28 @@ Categories=Development;
 "
 echo "$ida_icon" > /usr/share/applications/idapro.desktop
 
-
 # jd-gui
-wget https://github.com/java-decompiler/jd-gui/releases/download/v1.6.6/jd-gui-1.6.6.deb -O /tmp/jd-gui &&
-sudo dpkg -i /tmp/jd-gui &&
-rm /tmp/jd-gui &&
+if wget https://github.com/java-decompiler/jd-gui/releases/download/v1.6.6/jd-gui-1.6.6.deb -O /tmp/jd-gui; then
+  sudo dpkg -i /tmp/jd-gui
+  rm /tmp/jd-gui
+else
+  echo "Failed to download jd-gui"
+fi
 
 # Add my tools to /var/www/html
 
 # Don't want users to know what my webserver is running
-sudo rm /var/www/html/index* &&
+sudo rm /var/www/html/index*
 sudo touch /var/www/html/index.html
 cd /tmp
-git clone https://github.com/frank4o4/kali-tools.git &&
-cd kali-tools &&
-rm README.md &&
-sudo mv * /var/www/html &&
-cd /tmp &&
-sudo rm -rf /tmp/kali-tools &&
-sudo rm /tmp/soapui.sh &&
-sudo rm /tmp/idapro.sh &&
+if git clone https://github.com/frank4o4/kali-tools.git; then
+  cd kali-tools
+  rm README.md
+  sudo mv * /var/www/html
+  cd /tmp
+  sudo rm -rf /tmp/kali-tools
+else
+  echo "Failed to clone kali-tools repository"
+fi
 
-echo "Script Has completed"
+echo "Script has completed"
