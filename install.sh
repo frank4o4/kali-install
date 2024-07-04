@@ -105,4 +105,16 @@ else
   echo "Failed to clone kali-tools repository"
 fi
 
+
+# Pentesting Shell
+cd /tmp &&
+git clone https://github.com/frank4o4/Pentester-Shell.git &&
+cd Pentester-Shell &&
+sudo cp pentester_shell /home/$USERNAME/.pentester_shell &&
+sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.pentester_shell &&
+echo "source /home/$USERNAME/.pentester_shell" >> /home/$USERNAME/.zshrc &&
+cd /tmp &&
+sudo rm -rf Pentester-Shell
+
+
 echo "Script has completed"
