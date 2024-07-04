@@ -50,6 +50,32 @@ echo "$configurations" | sudo tee -a /etc/samba/smb.conf > /dev/null
 # adding my user account as a samba user
 sudo smbpasswd -a $USERNAME
 
+
+# SOAPUI
+wget https://dl.eviware.com/soapuios/5.7.2/SoapUI-x64-5.7.2.sh -O /tmp/soapui.sh &&
+chmod 775 /tmp/soapui.sh &&
+sudo sh /tmp/soapui.sh &&
+rm /tmp/soapui.sh
+
+# IDAPRO
+
+wget https://out7.hex-rays.com/files/idafree84_linux.run -O /tmp/idapro.sh &&
+chmod 775 /tmp/idapro.sh &&
+sudo sh /tmp/idapro.sh &&
+rm /tmp/idapro.sh
+
+ida_icon = "
+[Desktop Entry]
+Type=Application
+Name=IDAPRO
+Icon=/opt/idafree-8.4/appico64.png
+Exec=/usr/bin/ida64
+Terminal=false
+Categories=Development;
+"
+echo "$ida_icon" | sudo tee -a /usr/share/applications > /dev/null
+
+
 # Add my tools to /var/www/html
 
 # Don't want users to know what my webserver is running
@@ -59,4 +85,5 @@ cd /tmp
 git clone https://github.com/frank4o4/kali-tools.git &&
 cd kali-tools &&
 rm README.md &&
-sudo mv * /var/www/html
+sudo mv * /var/www/html &&
+rm -rf /tmp/kali-tools
