@@ -3,11 +3,19 @@
 # Define a variable for the username
 USERNAME="frank4o4"
 
+
+# Check if the script is run as root
+if [ "$(id -u)" -ne 0 ]; then
+  echo "This script must be run as root. Please use sudo or run as root user."
+  exit 1
+fi
+
+
 # Install Visual Code
 cd /tmp &&
-wget https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64 &&
-sudo dpkg -i code* &&
-rm code* &&
+wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/code_latest_amd64.deb &&
+sudo dpkg -i code_latest_amd64.deb &&
+rm code_latest_amd64.deb &&
 
 # Install Tools
 # Will add more as I notice the ones I use are missing
