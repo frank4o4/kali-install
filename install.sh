@@ -73,7 +73,7 @@ Exec=/usr/bin/ida64
 Terminal=false
 Categories=Development;
 "
-echo "$ida_icon" | sudo tee -a /usr/share/applications/idapro.desktop > /dev/null
+echo "$ida_icon" > /usr/share/applications/idapro.desktop
 
 
 # jd-gui
