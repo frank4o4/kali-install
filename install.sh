@@ -76,6 +76,11 @@ Categories=Development;
 echo "$ida_icon" | sudo tee -a /usr/share/applications/idapro.desktop > /dev/null
 
 
+# jd-gui
+wget https://github.com/java-decompiler/jd-gui/releases/download/v1.6.6/jd-gui-1.6.6.deb -O /tmp/jd-gui &&
+sudo dpkg -i /tmp/jd-gui &&
+rm /tmp/jd-gui &&
+
 # Add my tools to /var/www/html
 
 # Don't want users to know what my webserver is running
