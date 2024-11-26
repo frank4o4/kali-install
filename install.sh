@@ -23,10 +23,13 @@ fi
 
 # Install Tools
 sudo apt update
-sudo apt install feroxbuster bloodhound -y || echo "Failed to install feroxbuster"
+sudo apt install feroxbuster bloodhound grc -y || echo "Failed to install feroxbuster and bloodhound"
 
 # Samba Configuration
 sudo sed -i 's/^client min protocol = LANMAN1/client min protocol = NT1/' /etc/samba/smb.conf
+
+# Use GRC to color nmap
+echo "alias nmap="grc nmap"" >> /home/$USERNAME/.zshrc
 
 # Change to your username or remove if you don't plan on having samba shares
 configurations="
