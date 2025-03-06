@@ -23,7 +23,7 @@ fi
 
 # Install Tools
 sudo apt update
-sudo apt install feroxbuster bloodhound grc -y || echo "Failed to install feroxbuster and bloodhound"
+sudo apt install feroxbuster bloodhound grc peass -y || echo "Failed to install feroxbuster and bloodhound"
 
 # Samba Configuration
 sudo sed -i 's/^client min protocol = LANMAN1/client min protocol = NT1/' /etc/samba/smb.conf
