@@ -18,3 +18,9 @@ This script will Download and install
 - IDAPRO (Also adds start menu Icon)
 - Downloads my common useds tools to /var/www/html
 - Adds my pentester shell which is just a reference of commands
+
+
+# Terminal color schema
+
+Copy frank4o4.colorscheme to /usr/share/qtermwidget6/color-schemes
+
